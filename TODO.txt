@@ -1,0 +1,15 @@
+- Search for TODO on files ...
+
+//TODO: Document APIs
+//TODO: add (not tool) dependencies via bower
+
+//TODO:
+//- Idea: make dependency from In.js optional . People can use the dyn inheritance lib they want.
+//- subclass Error and create proper excpetions
+//- documentation and jsdocs
+//- all the attached properties must have a _Mix_ prefix.
+//- Idea: check if the ctor of an abstract class is not called from another Ctor and then fail
+//- Override checks if number of parameters is the same
+//- Test mix into an Object more in deep
+//- Add comment param to assertions
+//- Unit test multiple mixin defining the same method
