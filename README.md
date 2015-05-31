@@ -1,139 +1,189 @@
 # Mxr.js #
 
-MXR stands for Mixer since it allow use of Mixin concept.
+`Mxr.js` (from _M_ i _X_ e _R_) is a library that simplifies the use of mix-ins in Javascript. Mix-ins, as implemented in `Mxr.js`, provide a form of *static multiple inheritance*.
 
-DESIGN NOTE:
-- There are not mixins and classes, every 'type' is a class.
-- The focal point is how types are combined. Dynamically (inheritance) or statically (mix).
-- There are not classes and interfaces, there are abstract methods.
-- There are not contract, there are methods annotted with pre and post conditions.
+`Mxr.js` is a [require.js](http://requirejs.org/) module and embeds [`In.js`](https://github.com/valentinomiazzo/in_js) for additional fun. `Mxr.js` is under MIT license.
 
-Multiple inheritance in JS:
-    JS doesn't support multiple inheritance since it has a single __proto__ chain.
-    It IS possible to call multiple base ctors in the ctor adding properties to an
-    object and copy members of super __proto__s in the current __proto__ BUT
-    1) modification to super __proto__s done after the 'definition' of the class
-       are not reflected in the current __proto__
-       Are they useful?
-       - Have a shared variable among all the instances
-       -- This can be done with a variable defined at module level
-       - Add/Remove members to all the instances after class definition
-       -- Seems to be a bad habit
-    2) instanceof doesn't work for auxiliary __proto__, in fact
-       It is NOT possible to make a 'patchwork' of the prototypes merging the linked lists in a single one
-       because this cut & paste will modify the inheritance chain also of the affering parents.
-       E.g.
-        A-B-O, C-D-O,
-        E = A+C --> E-A-B-C-D-O
-        but then after
-         E-A-B-C-D-O
-         C-D-O
-         A-B-C-D-O <-- as sidefx A has inherited C and D members
-    Ring.js is a library which implements this 'copy-inheritance' and it supplies a new Object method
-    which is similar to instanceof except it works with multiple inheritance.
-    This approach creates compatibility issues with external code not written using ring.js.
-    Anyway ring.js supplies some workarounds.
-    TODO: What is the cost per instance of 'copy-inheritance'?
+## Example ##
 
-Inheritance (again):
-- Classes and Mixin are different things.
-  They express a different kind of inheritance.
-- Classes are about Prototypal inheritance.
-  This defines a 'dynamic is a' relationship. It means that at any point
-  a super class can change its prototype and this is immediatly reflected in all the instances
-  of that class and its sublasses. Operator instanceof tests this inheritance.
-- Mixins are about Static inheritance.
-  This defines a 'static is a' relationship. It means that changes to super classes are not
-  reflected in subclasses after 'mixing' the Mixin. For this reason there is no point in
-  changing a Mixin after it is defined.
+Let's go straight to the point and leave details for later.
 
-    Interfaces:
-    - Interfaces are just like classes with only abstract methods.
+```javascript
+// Somewhere Drawable, Sortable and Armor mix-ins have been defined
 
-    If A defines myMethod then:
-    - Pre-existing Dbc.post is added to current.
-      Since this is applied to every inheritance step then we can find the array of post-s
-      in the super class.
-      This allows to implement countervariance where a subclass can restrict its postconditions.
-    - Dbc.pre is defined here and a pre-existing Dbc.pre is found in the inheritance chain then
-      a special logic is applied because covariance imposes that precondition can only be relaxed by sublcasses.
-        If pre fails, in addition to throwing an exception,  we check all the inherited pre-s.
-        If they don't fail then we show an additional error because it means that current pre was stricter
-        than previous ones therefore violating the covariance. This has negligble impact on performance
-        since it is done only if current pre fails and therefore outside the normal flow of the code.
-    - Pre and post conditions of super methods are checked even if we already checked the current pre-s.
-      This is useful becuase a method could have not passed the original arguments to the super method.
-      This is obtained automatically.
+// We define our class
+function SpaceShip() {
+  //...
+}
 
-        a.m(-1);
+// Now we mix ...
+Mxr.mix(SpaceShip, Drawable);
+Mxr.mix(SpaceShip, Sortable);
+Mxr.mix(SpaceShip, Armor);
+// ... and SpaceShip becomes Drawable and Sortable, plus,
+// its reaction to bullets is modified by the Armor
 
-        //A inherits B
+// Drawable and Sortable are abstract mix-ins.
+// We have to define some methods
+Spaceship.prototype.draw = function (context) {
+  //...
+};
+Spaceship.prototype.getSortValue = function () {
+  return this.z;
+};
 
-        //B.m requires x>0
+//Now we can sort per z ...
+Engine.sort(spaceships);
+//... and draw.
+Engine.draw(spaceships);
+```
 
-        A.m = function(x) {
-          A.parent.m(complexFunction(x));
-        }
+## Alternatives ##
 
-    If both A and B define myMethod then
-    - Dbc.post-s are accumulated
-    - If Dbc.pre is defined then all Dbc.pre-s are checked when it fails and if any of them doesn't
-      fail then an covariance error is generated in addition.
+* [Ring.js](http://ringjs.neoname.eu/) JavaScript Class System with Multiple Inheritance
+* ...
 
-    If A and B define a method m that is not defined in the subclass
-    - an error is generated because the multi-inheritance is not clear and the subclass
-      developer needs to supply his m that dispatches to the multiple m super methods as required.
+## How do I get set up? ##
 
-    Abstract method annotation
-    - it may be useful to add a way to mark a method as 'must override'.
-    - if a sub class doesn't override them then an error is generated, preferibly inside Dbc.inherit
-
-        A.prototype.m = Dbc.abstract;
-        A.prototypp.m.pre = function(a,b) {
-            //...
-        }
-        A.prototypp.m.post = function(r) {
-            //...
-        }
-
-    Invariants
-    - no support
-
-    Implementation:
-    - inside Dbc.inherit
-    -- the inherited pre-s and post-s are discovered
-    -- the original method is replaced with a wrapper that calls pre-s and post-s
-    -- pre-s and post-s logic is applied
-    -- multi inheritance ambiguities are discovered and signaled
-
-
-### How do I get set up? ###
-
+* How to use the lib
+    * The lib is a [Require.js](http://require.js) compatible module.
 * Summary of set up
-    * install [Node.js](http://nodejs.org/) (tested with node 0.10.13 and npm 2.8.3)
-    * install grunt and bower
-        * `npm install grunt -g`
-        * `npm install bower -g`
+    * install [Node.js](http://nodejs.org/) (tested with 0.10.31)
+    * install [Npm](https://www.npmjs.com/) (tested with 2.8.3)
+    * `npm install grunt-cli -g`
     * clone this repository
-    * in the root of the cloned repo, type:
+    * in the root of the cloned repo, type (on Windows you may need to disable antivirus if you get strange issues during the install):
         * `npm install`
-* How to run the game
+* How to run tests and generate docs
     * in the root of the cloned repo, type:
-        * `./node_modules/node-static/bin/cli.js`
-        * browse [http://localhost:8080/](http://localhost:8080/)
-* How to run tests
-    * in the root of the cloned repo, type:
-        * `./node_modules/karma/bin/karma start`
+        * `grunt`
         * tests reports are in `build/tests`
         * coverage reports are in `build/coverage`
+        * docs are generated in `build/docs`
 
-### Contribution guidelines ###
+## Contribution guidelines ##
 
 * Writing tests
-* Code review
-* Other guidelines
+    * [Jasmine](https://jasmine.github.io/) it is used for testing.
+    * tests are in `js/spec`
+* For pull requests
+    * go [here](../../pulls)
+* For issues
+    * go [here](../../issues)
 
-### Who do I talk to? ###
+## What problem solves? ##
 
-* Repo owner or admin
-* Other community or team contact
+Sometimes we want to inherit from more than one super class. This is not possible with the default inheritance of Javascript. The default inheritance is named *Prototypal Inheritance*.
+Prototypal inheritance uses a linked list of prototypes and when we inherit for the second time we replace the previous inheritance chain. Let see in code.
+
+```javascript
+//Let's inherit Drawable
+SpaceShip.prototype = Object.create(Drawable.prototype);
+var s1 = new SpaceShip();
+s1.draw(); //works!
+
+//Now let's inherit Sortable too
+SpaceShip.prototype = Object.create(Sortable.prototype);
+var s2 = new SpaceShip();
+s2.sort(); //works!
+s2.draw(); //Ops, undefined, it doesn't work anymore ...
+s1.draw(); //... even on the already created instance.
+```
+
+As we see, we have a single prototype.  We cannot have two or more.
+If we are determined enough then we can figure out that we can manipulate that linked list to obtain what we want, but this doesn't work too. Let see why. This is the initial situation:
+
+    B --> A --> Object  // --> means 'inherits'
+    Y --> X --> Object
+
+Now we want that a new class K inherits both `B` and `Y`.
+We obtain this with some cut & paste over the prototype chains.
+
+    K --> B --> A --> Y --> X --> Object
+
+Cool, we did it! ... maybe not ...
+Indeed the cut & paste with `K` also modified the behavior of all the instances of `B`.
+If we look carefully this is the new prototype chain of `B`
+
+    B --> A --> Y --> X --> Object
+
+In other words, as side effect of our patchwork, `B` (and all its instances) has inherited members of `Y` and `X`.
+
+## How solves the problem? ##
+
+`Mxr.js` provides the mix-in concept, a form of *static multiple inheritance*.
+
+By looking at the implementation of `Mxr.js` we see it as a sort of copy-inheritance. The members of the prototype of the mix-in are copied into the prototype of the receiving class. This permits the multiple inheritance.
+
+With the prototypal inheritance each instance `c` of class `C` maintains a link through `c.__proto__` to `C.prototype`.
+When you change `C.prototype` this is immediately reflected in all the instances of `C` even if this happens after the creation of `c`. Given how the prototypal inheritance is implemented these side effects extends to sub classes. In other words even changing the prototype of a super class has immediate impact on all the instances of its sub classes.
+This is the reason why we say that the prototypal inheritance is dynamic.
+
+The members of the mix-in are copied into the class at mix time. This implies that modifications done to the Mix-in after the mix are not reflected on the class. Operations like add a function, remove a function, change a constant are not reflected.
+For these reason we say that mix-ins provide a form of *static multiple inheritance*.
+
+Should we consider static inheritance a limitation? We think no. Modify the prototype of a class after instances have been created is often associated with [Monkey Patching ](https://en.wikipedia.org/wiki/Monkey_patch) which is a bad design practice. We think that static inheritance is actually good because makes monkey patching harder.
+
+## Advanced concepts ##
+
+### Abstract methods, mix-ins, traits, interfaces, signatures ###
+
+TODO
+
+### `In.js` integration ###
+
+TODO
+
+### instanceof ###
+
+The `instanceof` operator iterates over the `__proto__` chain of an object and if it finds the target class then it returns `true`.
+When we mix a mix-in `M` in class `C` we don't change the prototype chain of `C`, we just copy members into the prototype of `C`.
+This implies `c instanceof M == false` which is somehow surprising. `Mxr.js` supplies a function alternative to `instanceof`.
+
+```javascript
+function C() {}
+Mxr.mix(C,M);
+
+var c = new C();
+c instanceof M;   // false
+Mxr.is(c,M);      // true
+```
+
+Someone can argue that not being able to use `instanceof` limits the usefulness of mix-ins when dealing with 3rd party code that uses `instanceof` internally. In this regards, it is worth to note that prototypal inheritance and mix-in can be combined.
+E.g. you can define a class C that inherits from S and mixes in M.
+
+```javascript
+function C() {}
+C.prototype = Object.create(S.prototype);
+Mxr.mix(C,M);
+
+var c = new C();
+c instanceof S;   // true
+Mxr.is(c,M);      // true
+```
+
+### Shallow copy ###
+
+We said that at mix time the members of the mix-in are copied. The copy is a shallow copy and this has some consequences.
+Values are copied and therefore modifications aren't reflected. Reference are copied but not the referenced object.
+Therefore modifications at the referenced object are reflected on the mixed class and its instances. Let see in code.
+
+```javascript
+//The mix-in
+function M() {}
+M.prototype.K = { x: 0, y: 0 };
+
+//The class and the mixing
+function C() {}
+Mxr.mix(C,M);
+var c = new C();
+c.K.x == 0;       //true
+
+M.prototype.K.x = 1; //We modify the referenced object not the reference
+c.K.x == 0;          //false
+c.K.x == 1;          //true
+
+M.prototype.K = { x: 10, y: 10 }; //We modify the reference
+c.K.x == 10;                      //false
+c.K.x == 1;                       //true
+```

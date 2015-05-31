@@ -1,5 +1,7 @@
 - Search for TODO on files ...
 
+//TODO: in.js via bower
+//TODO: test setup instructions from scratch
 //TODO: Document APIs
 //TODO: add (not tool) dependencies via bower
 
@@ -13,3 +15,5 @@
 //- Test mix into an Object more in deep
 //- Add comment param to assertions
 //- Unit test multiple mixin defining the same method
+
+TODO: What is the cost per instance of 'copy-inheritance'?

@@ -72,6 +72,7 @@ define([
                 var self = this;
                 return x * self.y;
             };
+
             Mxr.mix(C, M);
 
             var i = new C(2);
@@ -336,8 +337,8 @@ define([
             expect(Mxr.is(c, C)).toBe(true);
         });
 
-        it("detects if there is a clash between mixins and it was handled", function() {
-        });
+        //it("detects if there is a clash between mixins and it was handled", function() {
+        //});
 
     });
 

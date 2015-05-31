@@ -32,6 +32,7 @@ define([
 
     /**
     This is the collection of static methods exposed by Mxr.js
+
     @class Mxr
     @static
     */
@@ -109,6 +110,33 @@ define([
         }
     };
 
+    /**
+    Mixes __in__ class `clazz` the mixin `mixin`.
+
+    This is a form of static inheritance in the sense that modification performed to the prototype of `mixin` after calling `mix()` aren't reflected on the mixed classes.
+
+    This is different from prototypal inheritance where modifications are propagated to subclasses and therefore is a sort of dynamic inheritance.
+
+    What makes mixins interesting is that they support multliple inheritance.
+
+        function M() {}
+        M.prototype.X = 0;
+        function A() {}
+        A.prototype.Y = 0;
+        Mxr.mix(A,M);
+        var a = new A();
+        a.X == 0;                 //true
+        a.Y == 0;                 //true
+        M.prototype.X = 1;
+        A.prototype.X = 1;
+        a.X == 1;                 //false, static inheritance
+        a.Y == 1;                 //true, dynamic inheritance
+
+    @method mix
+    @static
+    @param clazz {Class} the destination class
+    @param mixin {Class} the mix-in
+    */
     Mxr.mix = function(clazz, mixin) {
         _assert(clazz);
         _assert(clazz instanceof Function);
@@ -153,6 +181,26 @@ define([
         }
     };
 
+    /**
+    Tests if `object` is an instance of a class mixed with `mixin`.
+
+    It tests for static inheritance.
+
+        function A() {}
+        function B() {}
+        Mxr.mix(A,B);
+        var a = new A();
+        a instanceof A;           //true
+        a instanceof B;           //false
+        Mxr.isStatically(a,A);    //false
+        Mxr.isStatically(a,B);    //true
+
+    @method isStatically
+    @static
+    @param object {Object} the instance under test
+    @param mixin {Class} the mix-in to check
+    */
+    //TODO: rename it isMixed() ?
     Mxr.isStatically = function(object, mixin) {
         _assert(mixin);
         _assert(mixin instanceof Function);
@@ -170,6 +218,25 @@ define([
         return false;
     };
 
+    /**
+    Tests if `object` is an instance of a `clazz` or an instance of a class mixed with `clazz`.
+
+    In other words it tests for both static and dynamic inheritance.
+
+        function A() {}
+        function B() {}
+        Mxr.mix(A,B);
+        var a = new A();
+        a instanceof A; //true
+        a instanceof B; //false
+        Mxr.is(a,A);    //true
+        Mxr.is(a,B);    //true
+
+    @method is
+    @static
+    @param object {Object} the instance under test
+    @param clazz {Class} the class to check
+    */
     Mxr.is = function(object, clazz) {
         _assert(clazz);
         _assert(clazz instanceof Function);
