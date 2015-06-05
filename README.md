@@ -38,13 +38,13 @@ Engine.draw(spaceships);
 //We have an armor
 var shields = spaceShip.getShields();
 spaceShip.hitByBullet();
-shields == spaceShip.getShields();     //true, no damage!
+shields === spaceShip.getShields();     //true, no damage!
 ```
 
 ## Docs and examples ##
 
 Docs are available in [build/docs](build/docs).
-As examples you can use the [spec](js/spec/Mxr.js) file used for unit testin.
+As examples you can use the [spec](js/spec/Mxr.js) file used for unit testing. [Coverage reports](build/coverage/PhantomJS 1.9.8 (Windows 7)/index.html) are available too.
 
 ## Alternatives ##
 
@@ -185,13 +185,13 @@ M.prototype.K = { x: 0, y: 0 };
 function C() {}
 Mxr.mix(C,M);
 var c = new C();
-c.K.x == 0;       //true
+c.K.x === 0;       //true
 
 M.prototype.K.x = 1; //We modify the referenced object not the reference
-c.K.x == 0;          //false
-c.K.x == 1;          //true
+c.K.x === 0;          //false
+c.K.x === 1;          //true
 
 M.prototype.K = { x: 10, y: 10 }; //We modify the reference
-c.K.x == 10;                      //false
-c.K.x == 1;                       //true
+c.K.x === 10;                      //false
+c.K.x === 1;                       //true
 ```

@@ -1,19 +1,18 @@
 - Search for TODO on files ...
 
-//TODO: in.js via bower
+//TODO: in.js via bower, document how  to obtain this on 3rd party projects
+//TODO: how to inject IN.js only if the user wants to combine it
 //TODO: test setup instructions from scratch
-//TODO: Document APIs
-//TODO: add (not tool) dependencies via bower
+//TODO: Document APIs and link them to the README.md
 
 //TODO:
 //- Idea: make dependency from In.js optional . People can use the dyn inheritance lib they want.
 //- subclass Error and create proper excpetions
-//- documentation and jsdocs
-//- all the attached properties must have a _Mix_ prefix.
 //- Idea: check if the ctor of an abstract class is not called from another Ctor and then fail
 //- Override checks if number of parameters is the same
 //- Test mix into an Object more in deep
 //- Add comment param to assertions
-//- Unit test multiple mixin defining the same method
+//- Unit test multiple mixin defining the same
+//- Study runtime cost of a fluent API
 
 TODO: What is the cost per instance of 'copy-inheritance'?
