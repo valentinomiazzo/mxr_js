@@ -31,11 +31,11 @@ define([
         A.call(self, y);
         M.call(self);
     }
+    D.prototype = Object.create(A.prototype);
     D.prototype.d = function (x) {
         var self = this;
         return self.a(x) * 2;
     };
-    Mxr.inherit(D, A);
     Mxr.mix(D, M);
 
     function M2() {
@@ -53,11 +53,11 @@ define([
         D.call(self, y);
         M2.call(self);
     }
+    F.prototype = Object.create(D.prototype);
     F.prototype.f = function (x) {
         var self = this;
         return x * self.y;
     };
-    Mxr.inherit(F, D);
     Mxr.mix(F, M2);
 
     describe("The Mxr module", function() {
