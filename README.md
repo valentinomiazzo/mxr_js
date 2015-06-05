@@ -6,8 +6,6 @@
 
 ## Example ##
 
-Let's go straight to the point and leave details for later.
-
 ```javascript
 // Somewhere Drawable, Sortable and Armor mix-ins have been defined
 
@@ -32,11 +30,21 @@ Spaceship.prototype.getSortValue = function () {
   return this.z;
 };
 
-//Now we can sort per z ...
+//Now we can sort by z ...
 Engine.sort(spaceships);
 //... and draw.
 Engine.draw(spaceships);
+
+//We have an armor
+var shields = spaceShip.getShields();
+spaceShip.hitByBullet();
+shields == spaceShip.getShields();     //true, no damage!
 ```
+
+## Docs and examples ##
+
+Docs are available in [build/docs](build/docs).
+As examples you can use the [spec](js/spec/Mxr.js) file used for unit testin.
 
 ## Alternatives ##
 
