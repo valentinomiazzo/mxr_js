@@ -48,6 +48,23 @@ define([
 
     Mxr._s_IdGenerator = 0;
 
+    /**
+    Declares a method abstract.
+
+    In this way the library can help you to spot abstract methods not properly overridden.
+    Under the hoods, it generates a new stub function with troubleshooting code inside.
+
+        function M() {}
+        M.prototype.doCoreStuff = Mxr.abstract(); //Note is abstract(); not abstract;
+        M.prototype.doStuf = function () {
+            //something before
+            this.doCoreStuff();
+            //something after
+        }
+
+    @method abstract
+    @static
+    */
     Mxr.abstract = function () {
         var newAbstract = function () {
             throw new Error("Abstract function not overriden");
@@ -56,6 +73,17 @@ define([
         return newAbstract;
     };
 
+    /**
+    Tests if `member` is an abstract method (declared with `Mxr.abstract()`).
+
+        if (Mxr.isAbstract(M.prototype.doStuff) {
+            //...
+        }
+
+    @method isAbstract
+    @static
+    @param member {Function} the member to test
+    */
     Mxr.isAbstract = function (member) {
         _assert(member instanceof Function);
         _assert(
