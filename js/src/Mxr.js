@@ -1,13 +1,15 @@
+/*!
+*  Mxr.js 0.0.0
+*
+*  (c) valentino miazzo
+*
+*  MIT license
+*
+*  https://bitbucket.org/65c02/mxr_js
+*/
+
 /*jshint browser: true, bitwise: true, nomen: true, plusplus: true, indent: 4, expr: false, -W030 */
 /*global define*/
-
-/*!
- *  Mxr.js v0.0.0
- *
- *  (c) 2015, Valentino Miazzo
- *
- *  MIT License
- */
 
 define([
     "module"

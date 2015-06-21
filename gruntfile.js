@@ -8,6 +8,15 @@ module.exports = function(grunt) {
     // Project configuration.
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
+        banner: '/*!                                        \n'+
+                '*  <%= pkg.name %> <%= pkg.version %>      \n'+
+                '*                                          \n'+
+                '*  (c) <%= pkg.author %>                   \n'+
+                '*                                          \n'+
+                '*  <%= pkg.licenses[0].type %>             \n'+
+                '*                                          \n'+
+                '*  <%= pkg.repository.url %>               \n'+
+                '*/                                         \n',
         "sync-json": {
             "options": {
                 "indent": 4,
@@ -24,6 +33,18 @@ module.exports = function(grunt) {
             "bower": {
                 files: {
                     "bower.json": "package.json"
+                }
+            }
+        },
+        usebanner: {
+            taskName: {
+                options: {
+                    position: 'top',
+                    banner: '<%= banner %>',
+                    linebreak: true
+                },
+                files: {
+                    src: ['js/*/*.js']
                 }
             }
         },
