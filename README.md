@@ -2,7 +2,7 @@
 
 `Mxr.js` (from _M_ i _X_ e _R_) is a library that simplifies the use of mix-ins in Javascript. Mix-ins, as implemented in `Mxr.js`, provide a form of *static multiple inheritance*.
 
-`Mxr.js` is a [require.js](http://requirejs.org/) module and embeds [`In.js`](https://github.com/valentinomiazzo/in_js) for additional fun. `Mxr.js` is under MIT license.
+`Mxr.js` is a [require.js](http://requirejs.org/) module and optionally embeds [`In.js`](https://github.com/valentinomiazzo/in_js) for additional fun. `Mxr.js` is under MIT license.
 
 ## Example ##
 
@@ -140,7 +140,8 @@ TODO
 
 ### `In.js` integration ###
 
-TODO
+If you want you can merge `Mxr.js` with `In.js`. In this way you can use `Mxr.js` as a superset of `In.js`.
+This can be obtained by obtaining a reference to the In module and the invoking `Mxr.configure(...)` method.
 
 ### instanceof ###
 

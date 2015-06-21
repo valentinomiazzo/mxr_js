@@ -1,7 +1,4 @@
 {
-    "dependencies": {
-        "in_js": "git+https://github.com/valentinomiazzo/in_js.git"
-    },
     "name": "mxr.js",
     "description": "Mixin inheritance done right",
     "version": "0.0.0",
@@ -13,5 +10,9 @@
             "type": "MIT",
             "url": "https://bitbucket.org/65c02/mxr_js"
         }
-    ]
+    ],
+    "dependencies": {},
+    "devDependencies": {
+        "in_js": "git+https://github.com/valentinomiazzo/in_js.git"
+    }
 }

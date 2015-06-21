@@ -79,8 +79,8 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-/*jslint browser: true, bitwise: true, nomen: true, todo: true, vars: true, plusplus: true, indent: 4 */
-/*global define */
+/*jshint browser: true, bitwise: true, nomen: true, plusplus: true, indent: 4, expr: false, -W030 */
+/*global define*/
 
 /*!
  *  Mxr.js v0.0.0
@@ -91,16 +91,9 @@
  */
 
 define([
-    &quot;In&quot;
-], function(In) {
+    &quot;module&quot;
+], function(module) {
     &quot;use strict&quot;;
-
-    function _assert(trueish, message) {
-        if (!trueish) {
-            //TODO: add more details about the failure, like stack trace
-            throw new Error(message || &quot;_assert violated ...&quot;);
-        }
-    }
 
     function _s_copy(dst, src) {
         var member;
@@ -111,6 +104,15 @@ define([
         }
     }
 
+    function _defaultAssert(trueish, message) {
+        if (!trueish) {
+            //TODO: add more details about the failure, like stack trace
+            throw new Error(message || &quot;_assert violated ...&quot;);
+        }
+    }
+
+    var _assert = _defaultAssert;
+
     /**
     This is the collection of static methods exposed by Mxr.js
 
@@ -118,7 +120,6 @@ define([
     @static
     */
     var Mxr = {};
-    _s_copy(Mxr, In);
 
     Mxr._UTL_PFX = &quot;_Mxr_&quot;;
 
@@ -128,6 +129,60 @@ define([
     Mxr._ID = Mxr._UTL_PFX + &quot;_id&quot;;
 
     Mxr._s_IdGenerator = 0;
+
+    /**
+    Configures the library.
+    It expects a JSON like the following:
+
+        {
+            &quot;assert&quot; : callback,
+            &quot;In&quot;: module
+        }
+
+    It is called at load time by require.js passing as &#x60;config&#x60; the config of the module.
+
+    Fields description:
+
+    &#x60;assertCallback&#x60;:
+    Optional. The signature is &#x60;void assert(boolean, String)&#x60;.
+    If you pass &#x60;null&#x60; (but not &#x60;undefined&#x60;) then assertions are disabled.
+    If you pass &#x60;undefined&#x60; then the default implementation is used.
+
+    &#x60;In&#x60;:
+    Optional. If you pass the &#x60;In.js&#x60; module here then it is merged with &#x60;Mxr.js&#x60; module.
+    This is handy if you want to call &#x60;Mxr.inherit(a,b)&#x60;.
+    It is ignored of already merged.
+    It cannot be reverted.
+
+    @method configure
+    @static
+    @param config {Object} the configuration object
+    */
+    Mxr.configure = function(config) {
+        _assert &amp;&amp; _assert(config !== null, &quot;config is null&quot;);
+
+        if (config.In) {
+            if (!Mxr._In) {
+                Mxr._In = config.In;
+                var oldConfigure = Mxr.configure;
+                _s_copy(Mxr, config.In);
+                Mxr.configure = oldConfigure;
+            }
+        }
+
+        if (config.assert) {
+            _assert &amp;&amp; _assert(typeof config.assert === &quot;function&quot;, &quot;assert is not a function&quot;);
+            _assert = config.assert;
+        } else if (config.assert === null) {
+            _assert = null;
+        } else {
+            _assert = _defaultAssert;
+        }
+
+        if (Mxr._In) { Mxr._In.configure(config); }
+    };
+
+    Mxr.configure(module.config());
 
     /**
     Declares a method abstract.
@@ -166,8 +221,8 @@ define([
     @param member {Function} the member to test
     */
     Mxr.isAbstract = function (member) {
-        _assert(member instanceof Function);
-        _assert(
+        _assert &amp;&amp; _assert(member instanceof Function);
+        _assert &amp;&amp; _assert(
             member !== Mxr.abstract,
             &quot;When declaring an abstract method you should use Mxr.abstract(); not Mxr.abstract;&quot;
         );
@@ -180,7 +235,7 @@ define([
         dst[Mxr._COPIED_MEMBERS] = dst[Mxr._COPIED_MEMBERS] || [];
         for (member in src) {
             if (src.hasOwnProperty(member)) {
-                //We don&#x27;t copy our utility members
+                //We don&quot;t copy our utility members
                 if (member.indexOf(Mxr._UTL_PFX) &lt; 0) {
                     srcIsAbstract = Mxr.isAbstract(src[member]); //want to check abstract misuse
                     //Override logic
@@ -222,7 +277,7 @@ define([
     /**
     Mixes __in__ class &#x60;clazz&#x60; the mixin &#x60;mixin&#x60;.
 
-    This is a form of static inheritance in the sense that modification performed to the prototype of &#x60;mixin&#x60; after calling &#x60;mix()&#x60; aren&#x27;t reflected on the mixed classes.
+    This is a form of static inheritance in the sense that modification performed to the prototype of &#x60;mixin&#x60; after calling &#x60;mix()&#x60; aren&quot;t reflected on the mixed classes.
 
     This is different from prototypal inheritance where modifications are propagated to subclasses and therefore is a sort of dynamic inheritance.
 
@@ -247,35 +302,36 @@ define([
     @param mixin {Class} the mix-in
     */
     Mxr.mix = function(clazz, mixin) {
-        _assert(clazz);
-        _assert(clazz instanceof Function);
+        _assert &amp;&amp; _assert(clazz);
+        _assert &amp;&amp; _assert(clazz instanceof Function);
         Mxr._mixObject(clazz.prototype, mixin);
     };
 
     //This version applies a mixin to an instance
     Mxr.mixObject = function(object, mixin) {
         Mxr._mixObject(object, mixin);
-        _assert(mixin.length === 0); //Ctor has no parameters
+        _assert &amp;&amp; _assert(mixin.length === 0); //Ctor has no parameters
         mixin.call(object);
     };
 
     Mxr._mixObject = function(object, mixin) {
-        _assert(object);
-        _assert(mixin);
-        _assert(mixin instanceof Function);
+        _assert &amp;&amp; _assert(object);
+        _assert &amp;&amp; _assert(mixin);
+        _assert &amp;&amp; _assert(mixin instanceof Function);
         if (mixin[Mxr._ID] === undefined) {
-            mixin[Mxr._ID] = Mxr._s_IdGenerator++;
+            mixin[Mxr._ID] = Mxr._s_IdGenerator;
+            Mxr._s_IdGenerator += 1;
         }
-        _assert(
+        _assert &amp;&amp; _assert(
             !Mxr.isStatically(object, mixin),
-            &#x27;Mixed the same class multiple times. Target=&#x27; + object + &#x27; Mixin=&#x27; + mixin
+            &quot;Mixed the same class multiple times. Target=&quot; + object + &quot; Mixin=&quot; + mixin
         );
         Mxr._copy(object, mixin.prototype);
         var mixins = object.hasOwnProperty(Mxr._MIXINS) ? object[Mxr._MIXINS] : {};
         mixins[mixin[Mxr._ID]] = mixin; //adds the mixin
         Mxr._copyMixins(mixins, mixin.prototype[Mxr._MIXINS]); //and the mixin&#x27;s mixins
         object[Mxr._MIXINS] = mixins;
-        _assert(Mxr.isStatically(object, mixin));
+        _assert &amp;&amp; _assert(Mxr.isStatically(object, mixin));
     };
 
     Mxr._copyMixins = function(dst, src) {
@@ -283,7 +339,7 @@ define([
         if (src) {
             for (id in src) {
                 if (src.hasOwnProperty(id)) {
-                    _assert(!dst.hasOwnProperty(id));
+                    _assert &amp;&amp; _assert(!dst.hasOwnProperty(id));
                     dst[id] = src[id];
                 }
             }
@@ -311,8 +367,8 @@ define([
     */
     //TODO: rename it isMixed() ?
     Mxr.isStatically = function(object, mixin) {
-        _assert(mixin);
-        _assert(mixin instanceof Function);
+        _assert &amp;&amp; _assert(mixin);
+        _assert &amp;&amp; _assert(mixin instanceof Function);
         var id = mixin[Mxr._ID];
         var mixins;
         if (id !== undefined) {
@@ -347,8 +403,8 @@ define([
     @param clazz {Class} the class to check
     */
     Mxr.is = function(object, clazz) {
-        _assert(clazz);
-        _assert(clazz instanceof Function);
+        _assert &amp;&amp; _assert(clazz);
+        _assert &amp;&amp; _assert(clazz instanceof Function);
         return (object instanceof clazz) || Mxr.isStatically(object, clazz);
     };
 

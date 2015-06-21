@@ -80,7 +80,7 @@
 
 
         <div class="foundat">
-            Defined in: <a href="../files/js_src_Mxr.js.html#l33"><code>js\src\Mxr.js:33</code></a>
+            Defined in: <a href="../files/js_src_Mxr.js.html#l35"><code>js\src\Mxr.js:35</code></a>
         </div>
 
 
@@ -110,6 +110,11 @@
                     <ul class="index-list methods">
                             <li class="index-item method">
                                 <a href="#method_abstract">abstract</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_configure">configure</a>
 
                                     <span class="flag static">static</span>
                             </li>
@@ -159,7 +164,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/js_src_Mxr.js.html#l51"><code>js\src\Mxr.js:51</code></a>
+        <a href="../files/js_src_Mxr.js.html#l106"><code>js\src\Mxr.js:106</code></a>
         </p>
 
 
@@ -180,6 +185,78 @@ M.prototype.doStuf = function () {
 
     </div>
 
+
+
+
+</div>
+<div id="method_configure" class="method item">
+    <h3 class="name"><code>configure</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>config</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+        <span class="flag static">static</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/js_src_Mxr.js.html#l52"><code>js\src\Mxr.js:52</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Configures the library.
+It expects a JSON like the following:</p>
+<pre class="code prettyprint"><code>{
+    &quot;assert&quot; : callback,
+    &quot;In&quot;: module
+}
+</code></pre>
+<p>It is called at load time by require.js passing as <code>config</code> the config of the module.</p>
+<p>Fields description:</p>
+<p><code>assertCallback</code>:
+Optional. The signature is <code>void assert(boolean, String)</code>.
+If you pass <code>null</code> (but not <code>undefined</code>) then assertions are disabled.
+If you pass <code>undefined</code> then the default implementation is used.</p>
+<p><code>In</code>:
+Optional. If you pass the <code>In.js</code> module here then it is merged with <code>Mxr.js</code> module.
+This is handy if you want to call <code>Mxr.inherit(a,b)</code>.
+It is ignored of already merged.
+It cannot be reverted.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">config</code>
+                        <span class="type">Object</span>
+
+
+                    <div class="param-description">
+                        <p>the configuration object</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
 
 
 
@@ -209,7 +286,7 @@ M.prototype.doStuf = function () {
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/js_src_Mxr.js.html#l249"><code>js\src\Mxr.js:249</code></a>
+        <a href="../files/js_src_Mxr.js.html#l305"><code>js\src\Mxr.js:305</code></a>
         </p>
 
 
@@ -284,7 +361,7 @@ Mxr.is(a,B);    //true</code></pre>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/js_src_Mxr.js.html#l76"><code>js\src\Mxr.js:76</code></a>
+        <a href="../files/js_src_Mxr.js.html#l131"><code>js\src\Mxr.js:131</code></a>
         </p>
 
 
@@ -345,7 +422,7 @@ Mxr.is(a,B);    //true</code></pre>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/js_src_Mxr.js.html#l212"><code>js\src\Mxr.js:212</code></a>
+        <a href="../files/js_src_Mxr.js.html#l268"><code>js\src\Mxr.js:268</code></a>
         </p>
 
 
@@ -423,7 +500,7 @@ Mxr.isStatically(a,B);    //true</code></pre>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/js_src_Mxr.js.html#l141"><code>js\src\Mxr.js:141</code></a>
+        <a href="../files/js_src_Mxr.js.html#l196"><code>js\src\Mxr.js:196</code></a>
         </p>
 
 
@@ -432,7 +509,7 @@ Mxr.isStatically(a,B);    //true</code></pre>
 
     <div class="description">
         <p>Mixes <strong>in</strong> class <code>clazz</code> the mixin <code>mixin</code>.</p>
-<p>This is a form of static inheritance in the sense that modification performed to the prototype of <code>mixin</code> after calling <code>mix()</code> aren't reflected on the mixed classes.</p>
+<p>This is a form of static inheritance in the sense that modification performed to the prototype of <code>mixin</code> after calling <code>mix()</code> aren&quot;t reflected on the mixed classes.</p>
 <p>This is different from prototypal inheritance where modifications are propagated to subclasses and therefore is a sort of dynamic inheritance.</p>
 <p>What makes mixins interesting is that they support multliple inheritance.</p>
 <pre class="code prettyprint"><code>function M() {}

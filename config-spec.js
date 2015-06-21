@@ -18,11 +18,15 @@
         baseUrl: '/base/js/src',
 
         paths: {
-            spec: '../spec'
+            spec: '../spec',
+            "In": "../../bower_components/in_js/js/src/In"
         },
 
         // dynamically load all test files
         deps: allTestFiles,
+
+        config: {
+        },
 
         // we have to kickoff jasmine, as it is asynchronous
         callback: window.__karma__.start

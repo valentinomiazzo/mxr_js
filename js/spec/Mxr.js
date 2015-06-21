@@ -1,9 +1,9 @@
-/*jslint browser: true, bitwise: true, nomen: true, todo: true, vars: true, plusplus: true, indent: 4 */
+/*jshint browser: true, bitwise: true, nomen: true, plusplus: true, indent: 4, expr: false, -W030 */
 /*global define, describe, it, expect */
 
 define([
-    "Mxr"
-], function(Mxr) {
+    "Mxr", "In"
+], function(Mxr, In) {
     "use strict";
 
     function A(y) {
@@ -218,7 +218,7 @@ define([
             function Stuff() {}
             Mxr.mix(Stuff, Mixin);
             try {
-                expect(Mxr.mix(Stuff, Mixin)).toBe('shouldNotGoHere');
+                expect(Mxr.mix(Stuff, Mixin)).toBe("shouldNotGoHere");
             } catch (e) {}
         });
 
@@ -241,7 +241,7 @@ define([
             function Stuff() {}
             Stuff.prototype.f = function() { return 1; };
             try {
-                expect(Mxr.mix(Stuff, Mixin)).toBe('shouldNotGoHere');
+                expect(Mxr.mix(Stuff, Mixin)).toBe("shouldNotGoHere");
             } catch (e) {}
         });
 
@@ -255,7 +255,7 @@ define([
             function Stuff() {}
             Mxr.mix(Stuff, Mixin1);
             try {
-                expect(Mxr.mix(Stuff, Mixin2)).toBe('shouldNotGoHere');
+                expect(Mxr.mix(Stuff, Mixin2)).toBe("shouldNotGoHere");
             } catch (e) {}
         });
 
@@ -265,17 +265,17 @@ define([
             expect(Mxr.isAbstract(MixinOK.prototype.f)).toBe(true);
 
             function A() {}
-            Mxr.mix(A, MixinOK); //doesn't throw
+            Mxr.mix(A, MixinOK); //doesn"t throw
 
             function MixinBad() {}
             MixinBad.prototype.f = Mxr.abstract; //wrong use
             try {
-                expect(Mxr.isAbstract(MixinBad.prototype.f)).toBe('shouldNotGoHere');
+                expect(Mxr.isAbstract(MixinBad.prototype.f)).toBe("shouldNotGoHere");
             } catch (e) {}
 
             function B() {}
             try {
-                expect(Mxr.mix(B, MixinBad)).toBe('shouldNotGoHere');
+                expect(Mxr.mix(B, MixinBad)).toBe("shouldNotGoHere");
             } catch (e) {}
         });
 
@@ -335,6 +335,50 @@ define([
             expect(Mxr.is(c, A)).toBe(true);
             expect(Mxr.is(c, B)).toBe(true);
             expect(Mxr.is(c, C)).toBe(true);
+        });
+
+        it("allows to override the default assert callback. In this way you can inject your preferred framework (e.g. Chai)", function() {
+            var assertCalled = false;
+            var assertCallback = function (trueish, message) {
+                if (!trueish) {
+                    assertCalled = !trueish;
+                    throw new Error(message);
+                }
+            };
+            Mxr.configure({
+                "assert": assertCallback
+            });
+
+            expect(Mxr.mix.bind(null, null)).toThrow();
+
+            expect(assertCalled).toBe(true);
+
+            Mxr.configure({
+                "assert": undefined  //default behavior
+            });
+        });
+
+        it("allows you to disable assertions, if you want.", function() {
+            Mxr.configure({
+                "assert": null  //no assertions
+            });
+            function Base() { return; }
+            function Special() { return; }
+            Mxr.mix(Special, Base);
+
+            Mxr.mix(Special, Base); //double mix doesn"t throw
+
+            Mxr.configure({
+                "assert": undefined  //default behavior
+            });
+        });
+
+        it("allows you to merge in In.js, if you want.", function() {
+            Mxr.configure({
+                "In": In
+            });
+
+            expect(Mxr.inherit !== undefined).toBe(true);
         });
 
         //it("detects if there is a clash between mixins and it was handled", function() {

@@ -27,7 +27,7 @@
             "plugin_for": [],
             "extension_for": [],
             "file": "js\\src\\Mxr.js",
-            "line": 33,
+            "line": 35,
             "description": "This is the collection of static methods exposed by Mxr.js",
             "static": 1
         }
@@ -35,7 +35,23 @@
     "classitems": [
         {
             "file": "js\\src\\Mxr.js",
-            "line": 51,
+            "line": 52,
+            "description": "Configures the library.\nIt expects a JSON like the following:\n\n    {\n        \"assert\" : callback,\n        \"In\": module\n    }\n\nIt is called at load time by require.js passing as `config` the config of the module.\n\nFields description:\n\n`assertCallback`:\nOptional. The signature is `void assert(boolean, String)`.\nIf you pass `null` (but not `undefined`) then assertions are disabled.\nIf you pass `undefined` then the default implementation is used.\n\n`In`:\nOptional. If you pass the `In.js` module here then it is merged with `Mxr.js` module.\nThis is handy if you want to call `Mxr.inherit(a,b)`.\nIt is ignored of already merged.\nIt cannot be reverted.",
+            "itemtype": "method",
+            "name": "configure",
+            "static": 1,
+            "params": [
+                {
+                    "name": "config",
+                    "description": "the configuration object",
+                    "type": "Object"
+                }
+            ],
+            "class": "Mxr"
+        },
+        {
+            "file": "js\\src\\Mxr.js",
+            "line": 106,
             "description": "Declares a method abstract.\n\nIn this way the library can help you to spot abstract methods not properly overridden.\nUnder the hoods, it generates a new stub function with troubleshooting code inside.\n\n    function M() {}\n    M.prototype.doCoreStuff = Mxr.abstract(); //Note is abstract(); not abstract;\n    M.prototype.doStuf = function () {\n        //something before\n        this.doCoreStuff();\n        //something after\n    }",
             "itemtype": "method",
             "name": "abstract",
@@ -44,7 +60,7 @@
         },
         {
             "file": "js\\src\\Mxr.js",
-            "line": 76,
+            "line": 131,
             "description": "Tests if `member` is an abstract method (declared with `Mxr.abstract()`).\n\n    if (Mxr.isAbstract(M.prototype.doStuff) {\n        //...\n    }",
             "itemtype": "method",
             "name": "isAbstract",
@@ -60,8 +76,8 @@
         },
         {
             "file": "js\\src\\Mxr.js",
-            "line": 141,
-            "description": "Mixes __in__ class `clazz` the mixin `mixin`.\n\nThis is a form of static inheritance in the sense that modification performed to the prototype of `mixin` after calling `mix()` aren't reflected on the mixed classes.\n\nThis is different from prototypal inheritance where modifications are propagated to subclasses and therefore is a sort of dynamic inheritance.\n\nWhat makes mixins interesting is that they support multliple inheritance.\n\n    function M() {}\n    M.prototype.X = 0;\n    function A() {}\n    A.prototype.Y = 0;\n    Mxr.mix(A,M);\n    var a = new A();\n    a.X == 0;                 //true\n    a.Y == 0;                 //true\n    M.prototype.X = 1;\n    A.prototype.X = 1;\n    a.X == 1;                 //false, static inheritance\n    a.Y == 1;                 //true, dynamic inheritance",
+            "line": 196,
+            "description": "Mixes __in__ class `clazz` the mixin `mixin`.\n\nThis is a form of static inheritance in the sense that modification performed to the prototype of `mixin` after calling `mix()` aren\"t reflected on the mixed classes.\n\nThis is different from prototypal inheritance where modifications are propagated to subclasses and therefore is a sort of dynamic inheritance.\n\nWhat makes mixins interesting is that they support multliple inheritance.\n\n    function M() {}\n    M.prototype.X = 0;\n    function A() {}\n    A.prototype.Y = 0;\n    Mxr.mix(A,M);\n    var a = new A();\n    a.X == 0;                 //true\n    a.Y == 0;                 //true\n    M.prototype.X = 1;\n    A.prototype.X = 1;\n    a.X == 1;                 //false, static inheritance\n    a.Y == 1;                 //true, dynamic inheritance",
             "itemtype": "method",
             "name": "mix",
             "static": 1,
@@ -81,7 +97,7 @@
         },
         {
             "file": "js\\src\\Mxr.js",
-            "line": 212,
+            "line": 268,
             "description": "Tests if `object` is an instance of a class mixed with `mixin`.\n\nIt tests for static inheritance.\n\n    function A() {}\n    function B() {}\n    Mxr.mix(A,B);\n    var a = new A();\n    a instanceof A;           //true\n    a instanceof B;           //false\n    Mxr.isStatically(a,A);    //false\n    Mxr.isStatically(a,B);    //true",
             "itemtype": "method",
             "name": "isStatically",
@@ -102,7 +118,7 @@
         },
         {
             "file": "js\\src\\Mxr.js",
-            "line": 249,
+            "line": 305,
             "description": "Tests if `object` is an instance of a `clazz` or an instance of a class mixed with `clazz`.\n\nIn other words it tests for both static and dynamic inheritance.\n\n    function A() {}\n    function B() {}\n    Mxr.mix(A,B);\n    var a = new A();\n    a instanceof A; //true\n    a instanceof B; //false\n    Mxr.is(a,A);    //true\n    Mxr.is(a,B);    //true",
             "itemtype": "method",
             "name": "is",
