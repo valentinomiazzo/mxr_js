@@ -5,7 +5,7 @@
   "licenses": [
     {
       "type": "MIT license",
-      "url": "https://bitbucket.org/65c02/mxr_js"
+      "url": "https://github.com/valentinomiazzo/mxr_js"
     }
   ],
   "author": "valentino miazzo",
@@ -15,10 +15,10 @@
   "main": "js/src/Mxr.js",
   "repository": {
     "type": "git",
-    "url": "https://bitbucket.org/65c02/mxr_js"
+    "url": "https://github.com/valentinomiazzo/mxr_js"
   },
   "bugs": {
-    "url": "https://bitbucket.org/65c02/mxr_js/issues"
+    "url": "https://github.com/valentinomiazzo/mxr_js/issues"
   },
   "publishConfig": {},
   "keywords": [
