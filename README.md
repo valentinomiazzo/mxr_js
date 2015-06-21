@@ -140,8 +140,8 @@ TODO
 
 ### `In.js` integration ###
 
-If you want you can merge `Mxr.js` with `In.js`. In this way you can use `Mxr.js` as a superset of `In.js`.
-This can be obtained by obtaining a reference to the In module and the invoking `Mxr.configure(...)` method.
+If you want, you can merge `Mxr.js` with `In.js`. In this way you can use `Mxr.js` as a superset of `In.js`.
+This can be obtained by obtaining a reference to the In module and then invoking `Mxr.configure(...)` method.
 
 ### instanceof ###
 
