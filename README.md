@@ -43,8 +43,8 @@ shields === spaceShip.getShields();     //true, no damage!
 
 ## Docs and examples ##
 
-Docs are available in [build/docs](build/docs).
-As examples you can use the [spec](js/spec/Mxr.js) file used for unit testing. [Coverage reports](build/coverage/PhantomJS 1.9.8 (Windows 7)/index.html) are available too.
+Docs are available in [here](https://rawgit.com/valentinomiazzo/mxr_js/master/build/docs/classes/Mxr.html).
+As examples you can use the [spec](js/spec/Mxr.js) file used for unit testing. [Coverage reports](https://rawgit.com/valentinomiazzo/mxr_js/master/build/coverage/PhantomJS%201.9.8%20(Windows%207%200.0.0)/js/src/Mxr.js.html) are available too.
 
 ## Alternatives ##
 
