@@ -14,5 +14,10 @@
     "dependencies": {},
     "devDependencies": {
         "in_js": "git+https://github.com/valentinomiazzo/in_js.git"
-    }
+    },
+    "ignore": [
+        "/*.*",
+        "/js/spec/",
+        "/build"
+    ],
 }
