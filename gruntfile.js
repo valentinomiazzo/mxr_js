@@ -65,7 +65,19 @@ module.exports = function(grunt) {
             unit: {
                 configFile: "karma.conf.js",
                 singleRun: true,
-                browsers: ['PhantomJS']
+                browsers: ['PhantomJS'],
+                preprocessors: {
+                    'js/src/*.js': ['coverage'],
+                },
+                reporters: [ 'progress', 'html', 'coverage' ],
+                coverageReporter: {
+                    type : 'html',
+                    dir : 'build/coverage/'
+                },
+                htmlReporter: {
+                    outputDir: 'build/tests',
+                    templatePath: 'node_modules/karma-html-reporter/jasmine_template.html'
+                },
             }
         }
     });
