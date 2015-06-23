@@ -1,5 +1,5 @@
 {
-    "name": "mxr.js",
+    "name": "Mxr.js",
     "description": "Mixin inheritance done right",
     "version": "0.0.0",
     "authors": "valentino miazzo",
@@ -7,7 +7,7 @@
     "private": true,
     "license": [
         {
-            "type": "MIT",
+            "type": "MIT license",
             "url": "https://github.com/valentinomiazzo/mxr_js"
         }
     ],
