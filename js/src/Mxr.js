@@ -142,7 +142,7 @@ define([
     @param member {Function} the member to test
     */
     Mxr.isAbstract = function (member) {
-        _assert && _assert(member instanceof Function);
+        _assert && _assert(member instanceof Function, "member is not a function.");
         _assert && _assert(
             member !== Mxr.abstract,
             "When declaring an abstract method you should use Mxr.abstract(); not Mxr.abstract;"
@@ -156,9 +156,12 @@ define([
         dst[Mxr._COPIED_MEMBERS] = dst[Mxr._COPIED_MEMBERS] || [];
         for (member in src) {
             if (src.hasOwnProperty(member)) {
-                //We don"t copy our utility members
+                //We don't copy our utility members
                 if (member.indexOf(Mxr._UTL_PFX) < 0) {
-                    srcIsAbstract = Mxr.isAbstract(src[member]); //want to check abstract misuse
+                    //We want to check abstract misuse
+                    if (src[member] instanceof Function) {
+                        srcIsAbstract = Mxr.isAbstract(src[member]);
+                    }
                     //Override logic
                     if (dst.hasOwnProperty(member)) {
                         if (srcIsAbstract) {
@@ -223,22 +226,22 @@ define([
     @param mixin {Class} the mix-in
     */
     Mxr.mix = function(clazz, mixin) {
-        _assert && _assert(clazz);
-        _assert && _assert(clazz instanceof Function);
+        _assert && _assert(clazz, "clazz is null or undefined.");
+        _assert && _assert(clazz instanceof Function, "clazz is not a class.");
         Mxr._mixObject(clazz.prototype, mixin);
     };
 
     //This version applies a mixin to an instance
     Mxr.mixObject = function(object, mixin) {
         Mxr._mixObject(object, mixin);
-        _assert && _assert(mixin.length === 0); //Ctor has no parameters
+        _assert && _assert(mixin.length === 0, "Ctor of mixin has no parameters.");
         mixin.call(object);
     };
 
     Mxr._mixObject = function(object, mixin) {
-        _assert && _assert(object);
-        _assert && _assert(mixin);
-        _assert && _assert(mixin instanceof Function);
+        _assert && _assert(object, "object is null or undefined.");
+        _assert && _assert(mixin, "mixin is null or undefined.");
+        _assert && _assert(mixin instanceof Function, "mixin is not a class.");
         if (mixin[Mxr._ID] === undefined) {
             mixin[Mxr._ID] = Mxr._s_IdGenerator;
             Mxr._s_IdGenerator += 1;
@@ -252,7 +255,7 @@ define([
         mixins[mixin[Mxr._ID]] = mixin; //adds the mixin
         Mxr._copyMixins(mixins, mixin.prototype[Mxr._MIXINS]); //and the mixin's mixins
         object[Mxr._MIXINS] = mixins;
-        _assert && _assert(Mxr.isStatically(object, mixin));
+        _assert && _assert(Mxr.isStatically(object, mixin), "Internal error. isStatically returns false after mixing. Open a ticket.");
     };
 
     Mxr._copyMixins = function(dst, src) {
@@ -288,8 +291,8 @@ define([
     */
     //TODO: rename it isMixed() ?
     Mxr.isStatically = function(object, mixin) {
-        _assert && _assert(mixin);
-        _assert && _assert(mixin instanceof Function);
+        _assert && _assert(mixin, "mixin is null or undefined.");
+        _assert && _assert(mixin instanceof Function, "mixin is not a class.");
         var id = mixin[Mxr._ID];
         var mixins;
         if (id !== undefined) {
@@ -324,8 +327,8 @@ define([
     @param clazz {Class} the class to check
     */
     Mxr.is = function(object, clazz) {
-        _assert && _assert(clazz);
-        _assert && _assert(clazz instanceof Function);
+        _assert && _assert(clazz, "clazz is null or undefined.");
+        _assert && _assert(clazz instanceof Function, "clazz is not a class.");
         return (object instanceof clazz) || Mxr.isStatically(object, clazz);
     };
 
