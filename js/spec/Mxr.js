@@ -391,6 +391,31 @@ define([
             expect(Mxr.inherit !== undefined).toBe(true);
         });
 
+        it("uses shallow-copy when mixing which can give surprising results when doing Monkey Patching.", function() {
+            //The mix-in
+            function M() {}
+            M.prototype.V = 0;
+            M.prototype.R = { x: 0, y: 0 };
+
+            //The class and the mixing
+            function C() {}
+            Mxr.mix(C,M);
+            var c = new C();
+
+            M.prototype.V = 1; //We modify the mix-in after mixing
+            expect(c.V === 0).toBe(true); //No side-fx expected
+
+            M.prototype.R.x = 10; //We modify the mix-in after mixing
+            expect(c.R.x === 10).toBe(true);
+            //This time we have side-fx because the reference was copied but not cloned (deep copy)
+            //Therefore, M, C and its instances point all to the same object.
+
+            M.prototype.R = { x: 8, y: 8 }; //We modify the mix-in after mixing
+            expect(c.R.y === 0).toBe(true);
+            //No side-fx, we replaced the reference of the mixin with a new object.
+            //C and its instances still point to the old object.
+        });
+
         //it("detects if there is a clash between mixins and it was handled", function() {
         //});
 

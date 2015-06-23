@@ -180,19 +180,24 @@ Therefore modifications at the referenced object are reflected on the mixed clas
 ```javascript
 //The mix-in
 function M() {}
-M.prototype.K = { x: 0, y: 0 };
+M.prototype.V = 0;
+M.prototype.R = { x: 0, y: 0 };
 
 //The class and the mixing
 function C() {}
 Mxr.mix(C,M);
 var c = new C();
-c.K.x === 0;       //true
 
-M.prototype.K.x = 1; //We modify the referenced object not the reference
-c.K.x === 0;          //false
-c.K.x === 1;          //true
+M.prototype.V = 1; //We modify the mix-in after mixing
+expect(c.V === 0).toBe(true); //No side-fx expected
 
-M.prototype.K = { x: 10, y: 10 }; //We modify the reference
-c.K.x === 10;                      //false
-c.K.x === 1;                       //true
+M.prototype.R.x = 10; //We modify the mix-in after mixing
+expect(c.R.x === 10).toBe(true);
+//This time we have side-fx because the reference was copied but not cloned (deep copy)
+//Therefore, M, C and its instances point all to the same object.
+
+M.prototype.R = { x: 8, y: 8 }; //We modify the mix-in after mixing
+expect(c.R.y === 0).toBe(true);
+//No side-fx, we replaced the reference of the mixin with a new object.
+//C and its instances still point to the old object.
 ```
