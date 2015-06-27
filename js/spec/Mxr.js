@@ -1,5 +1,5 @@
 /*!
-*  Mxr.js 0.0.0
+*  Mxr.js 0.1.0
 *
 *  (c) valentino miazzo
 *
@@ -46,7 +46,7 @@ define([
         var self = this;
         return self.a(x) * 2;
     };
-    Mxr.mix(D, M);
+    Mxr.mixWith(D, M);
 
     function M2() {
         var self = this;
@@ -68,7 +68,7 @@ define([
         var self = this;
         return x * self.y;
     };
-    Mxr.mix(F, M2);
+    Mxr.mixWith(F, M2);
 
     describe("The Mxr module", function() {
 
@@ -83,30 +83,30 @@ define([
                 return x * self.y;
             };
 
-            Mxr.mix(C, M);
+            Mxr.mixWith(C, M);
 
             var i = new C(2);
             expect(i.c(3)).toBe(6);
             expect(i.m(4)).toBe(8);
             expect(i instanceof C).toBe(true);
             expect(i instanceof M).toBe(false);
-            expect(Mxr.is(i, C)).toBe(true);
-            expect(Mxr.is(i, M)).toBe(true);
-            expect(Mxr.isStatically(i, M)).toBe(true);
+            expect(Mxr.isA(i, C)).toBe(true);
+            expect(Mxr.isA(i, M)).toBe(true);
+            expect(Mxr.isMixedWith(i, M)).toBe(true);
         });
 
         it("can apply a mixin to an object", function() {
             var i = new A(2);
             expect(i.m).toBe(undefined);
-            expect(Mxr.isStatically(i, M)).toBe(false);
-            Mxr.mixObject(i, M);
+            expect(Mxr.isMixedWith(i, M)).toBe(false);
+            Mxr.mixObjectWith(i, M);
             expect(i.a(3)).toBe(6);
             expect(i.m(4)).toBe(8);
             expect(i instanceof A).toBe(true);
             expect(i instanceof M).toBe(false);
-            expect(Mxr.is(i, A)).toBe(true);
-            expect(Mxr.is(i, M)).toBe(true);
-            expect(Mxr.isStatically(i, M)).toBe(true);
+            expect(Mxr.isA(i, A)).toBe(true);
+            expect(Mxr.isA(i, M)).toBe(true);
+            expect(Mxr.isMixedWith(i, M)).toBe(true);
         });
 
         it("can apply a mixin to a derived class", function() {
@@ -117,10 +117,10 @@ define([
             expect(i instanceof A).toBe(true);
             expect(i instanceof D).toBe(true);
             expect(i instanceof M).toBe(false);
-            expect(Mxr.is(i, A)).toBe(true);
-            expect(Mxr.is(i, D)).toBe(true);
-            expect(Mxr.is(i, M)).toBe(true);
-            expect(Mxr.isStatically(i, M)).toBe(true);
+            expect(Mxr.isA(i, A)).toBe(true);
+            expect(Mxr.isA(i, D)).toBe(true);
+            expect(Mxr.isA(i, M)).toBe(true);
+            expect(Mxr.isMixedWith(i, M)).toBe(true);
         });
 
         it("can apply multiple mixins to a class", function() {
@@ -134,8 +134,8 @@ define([
                 var self = this;
                 return x * self.y;
             };
-            Mxr.mix(E, M);
-            Mxr.mix(E, M2);
+            Mxr.mixWith(E, M);
+            Mxr.mixWith(E, M2);
 
             var i = new E(2);
             expect(i.e(3)).toBe(6);
@@ -144,11 +144,11 @@ define([
             expect(i instanceof E).toBe(true);
             expect(i instanceof M).toBe(false);
             expect(i instanceof M2).toBe(false);
-            expect(Mxr.is(i, E)).toBe(true);
-            expect(Mxr.is(i, M)).toBe(true);
-            expect(Mxr.is(i, M2)).toBe(true);
-            expect(Mxr.isStatically(i, M)).toBe(true);
-            expect(Mxr.isStatically(i, M2)).toBe(true);
+            expect(Mxr.isA(i, E)).toBe(true);
+            expect(Mxr.isA(i, M)).toBe(true);
+            expect(Mxr.isA(i, M2)).toBe(true);
+            expect(Mxr.isMixedWith(i, M)).toBe(true);
+            expect(Mxr.isMixedWith(i, M2)).toBe(true);
         });
 
         it("can apply multiple mixins to an instance", function() {
@@ -156,21 +156,21 @@ define([
             expect(i.a(3)).toBe(6);
             expect(i.m).toBe(undefined);
             expect(i.m2).toBe(undefined);
-            expect(Mxr.isStatically(i, M)).toBe(false);
-            expect(Mxr.isStatically(i, M2)).toBe(false);
-            Mxr.mixObject(i, M);
-            Mxr.mixObject(i, M2);
+            expect(Mxr.isMixedWith(i, M)).toBe(false);
+            expect(Mxr.isMixedWith(i, M2)).toBe(false);
+            Mxr.mixObjectWith(i, M);
+            Mxr.mixObjectWith(i, M2);
             expect(i.a(3)).toBe(6);
             expect(i.m(4)).toBe(8);
             expect(i.m2(4)).toBe(8);
             expect(i instanceof A).toBe(true);
             expect(i instanceof M).toBe(false);
             expect(i instanceof M2).toBe(false);
-            expect(Mxr.is(i, A)).toBe(true);
-            expect(Mxr.is(i, M)).toBe(true);
-            expect(Mxr.is(i, M2)).toBe(true);
-            expect(Mxr.isStatically(i, M)).toBe(true);
-            expect(Mxr.isStatically(i, M2)).toBe(true);
+            expect(Mxr.isA(i, A)).toBe(true);
+            expect(Mxr.isA(i, M)).toBe(true);
+            expect(Mxr.isA(i, M2)).toBe(true);
+            expect(Mxr.isMixedWith(i, M)).toBe(true);
+            expect(Mxr.isMixedWith(i, M2)).toBe(true);
         });
 
         it("can apply a mixin to a class derived from a class with mixins", function() {
@@ -185,18 +185,18 @@ define([
             expect(i instanceof F).toBe(true);
             expect(i instanceof M).toBe(false);
             expect(i instanceof M2).toBe(false);
-            expect(Mxr.is(i, A)).toBe(true);
-            expect(Mxr.is(i, D)).toBe(true);
-            expect(Mxr.is(i, F)).toBe(true);
-            expect(Mxr.is(i, M)).toBe(true);
-            expect(Mxr.is(i, M2)).toBe(true);
-            expect(Mxr.isStatically(i, M)).toBe(true);
-            expect(Mxr.isStatically(i, M2)).toBe(true);
+            expect(Mxr.isA(i, A)).toBe(true);
+            expect(Mxr.isA(i, D)).toBe(true);
+            expect(Mxr.isA(i, F)).toBe(true);
+            expect(Mxr.isA(i, M)).toBe(true);
+            expect(Mxr.isA(i, M2)).toBe(true);
+            expect(Mxr.isMixedWith(i, M)).toBe(true);
+            expect(Mxr.isMixedWith(i, M2)).toBe(true);
             //No sidefx on base class
             var i2 = new D(2);
             expect(i2.f).toBe(undefined);
             expect(i2.m2).toBe(undefined);
-            expect(Mxr.isStatically(i2, M2)).toBe(false);
+            expect(Mxr.isMixedWith(i2, M2)).toBe(false);
         });
 
         it("can apply a mixin to an instance of a class derived from a class with mixins", function() {
@@ -207,38 +207,38 @@ define([
             expect(i instanceof A).toBe(true);
             expect(i instanceof D).toBe(true);
             expect(i instanceof M).toBe(false);
-            expect(Mxr.is(i, A)).toBe(true);
-            expect(Mxr.is(i, D)).toBe(true);
-            expect(Mxr.is(i, M)).toBe(true);
-            expect(Mxr.isStatically(i, M)).toBe(true);
-            Mxr.mixObject(i, M2);
+            expect(Mxr.isA(i, A)).toBe(true);
+            expect(Mxr.isA(i, D)).toBe(true);
+            expect(Mxr.isA(i, M)).toBe(true);
+            expect(Mxr.isMixedWith(i, M)).toBe(true);
+            Mxr.mixObjectWith(i, M2);
             expect(i.m2(4)).toBe(8);
             expect(i instanceof M2).toBe(false);
-            expect(Mxr.is(i, M2)).toBe(true);
-            expect(Mxr.isStatically(i, M2)).toBe(true);
+            expect(Mxr.isA(i, M2)).toBe(true);
+            expect(Mxr.isMixedWith(i, M2)).toBe(true);
             //No sidefx on base class
             var i2 = new D(2);
             expect(i2.m2).toBe(undefined);
-            expect(Mxr.isStatically(i2, M2)).toBe(false);
+            expect(Mxr.isMixedWith(i2, M2)).toBe(false);
         });
 
         it("detects multiple mixes of the same class", function() {
             function Mixin() {}
 
             function Stuff() {}
-            Mxr.mix(Stuff, Mixin);
+            Mxr.mixWith(Stuff, Mixin);
             try {
-                expect(Mxr.mix(Stuff, Mixin)).toBe("shouldNotGoHere");
+                expect(Mxr.mixWith(Stuff, Mixin)).toBe("shouldNotGoHere");
             } catch (e) {}
         });
 
         it("when mixes a class, allows member override of abstract methods", function() {
             function Mixin() {}
-            Mixin.prototype.f = Mxr.abstract();
+            Mixin.prototype.f = Mxr.anAbstract();
 
             function Stuff() {}
             Stuff.prototype.f = function() { return 1; };
-            Mxr.mix(Stuff, Mixin);
+            Mxr.mixWith(Stuff, Mixin);
 
             var s = new Stuff();
             expect(s.f()).toBe(1);
@@ -251,7 +251,7 @@ define([
             function Stuff() {}
             Stuff.prototype.f = function() { return 1; };
             try {
-                expect(Mxr.mix(Stuff, Mixin)).toBe("shouldNotGoHere");
+                expect(Mxr.mixWith(Stuff, Mixin)).toBe("shouldNotGoHere");
             } catch (e) {}
         });
 
@@ -263,35 +263,35 @@ define([
             Mixin2.prototype.f = function() { return 0; };
 
             function Stuff() {}
-            Mxr.mix(Stuff, Mixin1);
+            Mxr.mixWith(Stuff, Mixin1);
             try {
-                expect(Mxr.mix(Stuff, Mixin2)).toBe("shouldNotGoHere");
+                expect(Mxr.mixWith(Stuff, Mixin2)).toBe("shouldNotGoHere");
             } catch (e) {}
         });
 
-        it("warns you when Mxr.abstract() is misused", function() {
+        it("warns you when Mxr.anAbstract() is misused", function() {
             function MixinOK() {}
-            MixinOK.prototype.f = Mxr.abstract();
+            MixinOK.prototype.f = Mxr.anAbstract();
             expect(Mxr.isAbstract(MixinOK.prototype.f)).toBe(true);
 
             function A() {}
-            Mxr.mix(A, MixinOK); //doesn"t throw
+            Mxr.mixWith(A, MixinOK); //doesn"t throw
 
             function MixinBad() {}
-            MixinBad.prototype.f = Mxr.abstract; //wrong use
+            MixinBad.prototype.f = Mxr.anAbstract; //wrong use
             try {
                 expect(Mxr.isAbstract(MixinBad.prototype.f)).toBe("shouldNotGoHere");
             } catch (e) {}
 
             function B() {}
             try {
-                expect(Mxr.mix(B, MixinBad)).toBe("shouldNotGoHere");
+                expect(Mxr.mixWith(B, MixinBad)).toBe("shouldNotGoHere");
             } catch (e) {}
         });
 
         it("doesn't overwrite properties attached to abstract methods", function() {
             function Mixin1() {}
-            Mixin1.prototype.f = Mxr.abstract();
+            Mixin1.prototype.f = Mxr.anAbstract();
             Mixin1.prototype.f.findMe = 1;
             Mixin1.prototype.f.iAm1 = 1;
             expect(Mixin1.prototype.f.findMe).toBe(1);
@@ -299,7 +299,7 @@ define([
             expect(Mixin1.prototype.f.iAm2).toBe(undefined);
 
             function Mixin2() {}
-            Mixin2.prototype.f = Mxr.abstract();
+            Mixin2.prototype.f = Mxr.anAbstract();
             Mixin2.prototype.f.findMe = 2;
             Mixin2.prototype.f.iAm2 = 2;
             expect(Mixin2.prototype.f.findMe).toBe(2);
@@ -309,14 +309,14 @@ define([
 
         it(",when mixing, copies (shallow) properties attached to abstract methods to the overriding methods. Except if already defined.", function() {
             function Mixin1() {}
-            Mixin1.prototype.f = Mxr.abstract();
+            Mixin1.prototype.f = Mxr.anAbstract();
             Mixin1.prototype.f.findMe = 1;
             Mixin1.prototype.f.blocked = 2;
 
             function A() {}
             A.prototype.f = function () { return 2; };
             A.prototype.f.blocked = 3;
-            Mxr.mix(A, Mixin1);
+            Mxr.mixWith(A, Mixin1);
 
             var a = new A();
             expect(a.f()).toBe(2);
@@ -330,21 +330,21 @@ define([
             function A() {}
 
             function B() {}
-            Mxr.mix(B, A);
+            Mxr.mixWith(B, A);
 
             function C() {}
-            Mxr.mix(C, B);
+            Mxr.mixWith(C, B);
 
             var a = new A();
             var b = new B();
             var c = new C();
 
-            expect(Mxr.is(a, A)).toBe(true);
-            expect(Mxr.is(b, A)).toBe(true);
-            expect(Mxr.is(b, B)).toBe(true);
-            expect(Mxr.is(c, A)).toBe(true);
-            expect(Mxr.is(c, B)).toBe(true);
-            expect(Mxr.is(c, C)).toBe(true);
+            expect(Mxr.isA(a, A)).toBe(true);
+            expect(Mxr.isA(b, A)).toBe(true);
+            expect(Mxr.isA(b, B)).toBe(true);
+            expect(Mxr.isA(c, A)).toBe(true);
+            expect(Mxr.isA(c, B)).toBe(true);
+            expect(Mxr.isA(c, C)).toBe(true);
         });
 
         it("allows to override the default assert callback. In this way you can inject your preferred framework (e.g. Chai)", function() {
@@ -359,7 +359,7 @@ define([
                 "assert": assertCallback
             });
 
-            expect(Mxr.mix.bind(null, null)).toThrow();
+            expect(Mxr.mixWith.bind(null, null)).toThrow();
 
             expect(assertCalled).toBe(true);
 
@@ -374,9 +374,9 @@ define([
             });
             function Base() { return; }
             function Special() { return; }
-            Mxr.mix(Special, Base);
+            Mxr.mixWith(Special, Base);
 
-            Mxr.mix(Special, Base); //double mix doesn"t throw
+            Mxr.mixWith(Special, Base); //double mix doesn"t throw
 
             Mxr.configure({
                 "assert": undefined  //default behavior
@@ -399,7 +399,7 @@ define([
 
             //The class and the mixing
             function C() {}
-            Mxr.mix(C,M);
+            Mxr.mixWith(C,M);
             var c = new C();
 
             M.prototype.V = 1; //We modify the mix-in after mixing

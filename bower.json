@@ -1,10 +1,10 @@
 {
     "name": "Mxr.js",
     "description": "Mixin inheritance done right",
-    "version": "0.0.0",
+    "version": "0.1.0",
     "authors": "valentino miazzo",
     "main": "js/src/Mxr.js",
-    "private": true,
+    "private": false,
     "license": [
         {
             "type": "MIT license",

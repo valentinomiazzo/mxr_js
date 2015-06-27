@@ -15,9 +15,9 @@ function SpaceShip() {
 }
 
 // Now we mix ...
-Mxr.mix(SpaceShip, Drawable);
-Mxr.mix(SpaceShip, Sortable);
-Mxr.mix(SpaceShip, Armor);
+Mxr.mixWith(SpaceShip, Drawable);
+Mxr.mixWith(SpaceShip, Sortable);
+Mxr.mixWith(SpaceShip, Armor);
 // ... and SpaceShip becomes Drawable and Sortable, plus,
 // its reaction to bullets is modified by the Armor
 
@@ -151,11 +151,11 @@ This implies `c instanceof M == false` which is somehow surprising. `Mxr.js` sup
 
 ```javascript
 function C() {}
-Mxr.mix(C,M);
+Mxr.mixWith(C,M);
 
 var c = new C();
 c instanceof M;   // false
-Mxr.is(c,M);      // true
+Mxr.isA(c,M);      // true
 ```
 
 Someone can argue that not being able to use `instanceof` limits the usefulness of mix-ins when dealing with 3rd party code that uses `instanceof` internally. In this regards, it is worth to note that prototypal inheritance and mix-in can be combined.
@@ -164,11 +164,11 @@ E.g. you can define a class C that inherits from S and mixes in M.
 ```javascript
 function C() {}
 C.prototype = Object.create(S.prototype);
-Mxr.mix(C,M);
+Mxr.mixWith(C,M);
 
 var c = new C();
 c instanceof S;   // true
-Mxr.is(c,M);      // true
+Mxr.isA(c,M);      // true
 ```
 
 ### Shallow copy ###
@@ -185,7 +185,7 @@ M.prototype.R = { x: 0, y: 0 };
 
 //The class and the mixing
 function C() {}
-Mxr.mix(C,M);
+Mxr.mixWith(C,M);
 var c = new C();
 
 M.prototype.V = 1; //We modify the mix-in after mixing

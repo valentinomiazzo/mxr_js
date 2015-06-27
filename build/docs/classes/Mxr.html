@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="Mxr.js" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.0</em>
+            <em>API Docs for: 0.1.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -108,8 +108,14 @@
                     <h3>Methods</h3>
 
                     <ul class="index-list methods">
-                            <li class="index-item method">
+                            <li class="index-item method deprecated">
                                 <a href="#method_abstract">abstract</a>
+
+                                    <span class="flag static">static</span>
+                                    <span class="flag deprecated">deprecated</span>
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_anAbstract">anAbstract</a>
 
                                     <span class="flag static">static</span>
                             </li>
@@ -118,8 +124,14 @@
 
                                     <span class="flag static">static</span>
                             </li>
-                            <li class="index-item method">
+                            <li class="index-item method deprecated">
                                 <a href="#method_is">is</a>
+
+                                    <span class="flag static">static</span>
+                                    <span class="flag deprecated">deprecated</span>
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_isA">isA</a>
 
                                     <span class="flag static">static</span>
                             </li>
@@ -129,12 +141,24 @@
                                     <span class="flag static">static</span>
                             </li>
                             <li class="index-item method">
-                                <a href="#method_isStatically">isStatically</a>
+                                <a href="#method_isMixedWith">isMixedWith</a>
 
                                     <span class="flag static">static</span>
                             </li>
-                            <li class="index-item method">
+                            <li class="index-item method deprecated">
+                                <a href="#method_isStatically">isStatically</a>
+
+                                    <span class="flag static">static</span>
+                                    <span class="flag deprecated">deprecated</span>
+                            </li>
+                            <li class="index-item method deprecated">
                                 <a href="#method_mix">mix</a>
+
+                                    <span class="flag static">static</span>
+                                    <span class="flag deprecated">deprecated</span>
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_mixWith">mixWith</a>
 
                                     <span class="flag static">static</span>
                             </li>
@@ -148,8 +172,41 @@
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
 
-<div id="method_abstract" class="method item">
+<div id="method_abstract" class="method item deprecated">
     <h3 class="name"><code>abstract</code></h3>
+
+        <span class="paren">()</span>
+
+
+        <span class="flag deprecated" title="use anAbstract">deprecated</span>
+
+
+
+        <span class="flag static">static</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/js_src_Mxr.js.html#l134"><code>js\src\Mxr.js:134</code></a>
+        </p>
+
+
+            <p>Deprecated: use anAbstract</p>
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+
+</div>
+<div id="method_anAbstract" class="method item">
+    <h3 class="name"><code>anAbstract</code></h3>
 
         <span class="paren">()</span>
 
@@ -164,7 +221,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/js_src_Mxr.js.html#l108"><code>js\src\Mxr.js:108</code></a>
+        <a href="../files/js_src_Mxr.js.html#l109"><code>js\src\Mxr.js:109</code></a>
         </p>
 
 
@@ -176,7 +233,7 @@
 <p>In this way the library can help you to spot abstract methods not properly overridden.
 Under the hoods, it generates a new stub function with troubleshooting code inside.</p>
 <pre class="code prettyprint"><code>function M() {}
-M.prototype.doCoreStuff = Mxr.abstract(); //Note is abstract(); not abstract;
+M.prototype.doCoreStuff = Mxr.anAbstract(); //Note is anAbstract(); not anAbstract;
 M.prototype.doStuf = function () {
     //something before
     this.doCoreStuff();
@@ -226,15 +283,16 @@ It expects a JSON like the following:</p>
     &quot;In&quot;: module
 }
 </code></pre>
-<p>It is called at load time by require.js passing as <code>config</code> the config of the module.</p>
+<p>It is called at load time by require.js passing as <code>config</code> the config of the module.
+Anyway, you can call it again anytime.</p>
 <p>Fields description:</p>
 <p><code>assertCallback</code>:
 Optional. The signature is <code>void assert(boolean, String)</code>.
-If you pass <code>null</code> (but not <code>undefined</code>) then assertions are disabled.
+If you pass <code>null</code> then assertions are disabled.
 If you pass <code>undefined</code> then the default implementation is used.</p>
 <p><code>In</code>:
 Optional. If you pass the <code>In.js</code> module here then it is merged with <code>Mxr.js</code> module.
-This is handy if you want to call <code>Mxr.inherit(a,b)</code>.
+This is handy if you want to call <code>Mxr.inheritFrom(a,b)</code>.
 It is ignored of already merged.
 It cannot be reverted.</p>
 
@@ -261,8 +319,41 @@ It cannot be reverted.</p>
 
 
 </div>
-<div id="method_is" class="method item">
+<div id="method_is" class="method item deprecated">
     <h3 class="name"><code>is</code></h3>
+
+        <span class="paren">()</span>
+
+
+        <span class="flag deprecated" title="use isA">deprecated</span>
+
+
+
+        <span class="flag static">static</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/js_src_Mxr.js.html#l358"><code>js\src\Mxr.js:358</code></a>
+        </p>
+
+
+            <p>Deprecated: use isA</p>
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+
+</div>
+<div id="method_isA" class="method item">
+    <h3 class="name"><code>isA</code></h3>
 
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
@@ -286,7 +377,7 @@ It cannot be reverted.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/js_src_Mxr.js.html#l310"><code>js\src\Mxr.js:310</code></a>
+        <a href="../files/js_src_Mxr.js.html#l333"><code>js\src\Mxr.js:333</code></a>
         </p>
 
 
@@ -298,12 +389,12 @@ It cannot be reverted.</p>
 <p>In other words it tests for both static and dynamic inheritance.</p>
 <pre class="code prettyprint"><code>function A() {}
 function B() {}
-Mxr.mix(A,B);
+Mxr.mixWith(A,B);
 var a = new A();
 a instanceof A; //true
 a instanceof B; //false
-Mxr.is(a,A);    //true
-Mxr.is(a,B);    //true</code></pre>
+Mxr.isA(a,A);    //true
+Mxr.isA(a,B);    //true</code></pre>
 
     </div>
 
@@ -361,7 +452,7 @@ Mxr.is(a,B);    //true</code></pre>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/js_src_Mxr.js.html#l133"><code>js\src\Mxr.js:133</code></a>
+        <a href="../files/js_src_Mxr.js.html#l141"><code>js\src\Mxr.js:141</code></a>
         </p>
 
 
@@ -369,7 +460,7 @@ Mxr.is(a,B);    //true</code></pre>
     </div>
 
     <div class="description">
-        <p>Tests if <code>member</code> is an abstract method (declared with <code>Mxr.abstract()</code>).</p>
+        <p>Tests if <code>member</code> is an abstract method (declared with <code>Mxr.anAbstract()</code>).</p>
 <pre class="code prettyprint"><code>if (Mxr.isAbstract(M.prototype.doStuff) {
     //...
 }</code></pre>
@@ -397,8 +488,8 @@ Mxr.is(a,B);    //true</code></pre>
 
 
 </div>
-<div id="method_isStatically" class="method item">
-    <h3 class="name"><code>isStatically</code></h3>
+<div id="method_isMixedWith" class="method item">
+    <h3 class="name"><code>isMixedWith</code></h3>
 
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
@@ -422,7 +513,7 @@ Mxr.is(a,B);    //true</code></pre>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/js_src_Mxr.js.html#l273"><code>js\src\Mxr.js:273</code></a>
+        <a href="../files/js_src_Mxr.js.html#l290"><code>js\src\Mxr.js:290</code></a>
         </p>
 
 
@@ -434,12 +525,12 @@ Mxr.is(a,B);    //true</code></pre>
 <p>It tests for static inheritance.</p>
 <pre class="code prettyprint"><code>function A() {}
 function B() {}
-Mxr.mix(A,B);
+Mxr.mixWith(A,B);
 var a = new A();
 a instanceof A;           //true
 a instanceof B;           //false
-Mxr.isStatically(a,A);    //false
-Mxr.isStatically(a,B);    //true</code></pre>
+Mxr.isMixedWith(a,A);    //false
+Mxr.isMixedWith(a,B);    //true</code></pre>
 
     </div>
 
@@ -475,8 +566,74 @@ Mxr.isStatically(a,B);    //true</code></pre>
 
 
 </div>
-<div id="method_mix" class="method item">
+<div id="method_isStatically" class="method item deprecated">
+    <h3 class="name"><code>isStatically</code></h3>
+
+        <span class="paren">()</span>
+
+
+        <span class="flag deprecated" title="use isMixedWith">deprecated</span>
+
+
+
+        <span class="flag static">static</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/js_src_Mxr.js.html#l326"><code>js\src\Mxr.js:326</code></a>
+        </p>
+
+
+            <p>Deprecated: use isMixedWith</p>
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+
+</div>
+<div id="method_mix" class="method item deprecated">
     <h3 class="name"><code>mix</code></h3>
+
+        <span class="paren">()</span>
+
+
+        <span class="flag deprecated" title="use mixWith">deprecated</span>
+
+
+
+        <span class="flag static">static</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/js_src_Mxr.js.html#l242"><code>js\src\Mxr.js:242</code></a>
+        </p>
+
+
+            <p>Deprecated: use mixWith</p>
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+
+</div>
+<div id="method_mixWith" class="method item">
+    <h3 class="name"><code>mixWith</code></h3>
 
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
@@ -500,7 +657,7 @@ Mxr.isStatically(a,B);    //true</code></pre>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/js_src_Mxr.js.html#l201"><code>js\src\Mxr.js:201</code></a>
+        <a href="../files/js_src_Mxr.js.html#l209"><code>js\src\Mxr.js:209</code></a>
         </p>
 
 
@@ -508,15 +665,15 @@ Mxr.isStatically(a,B);    //true</code></pre>
     </div>
 
     <div class="description">
-        <p>Mixes <strong>in</strong> class <code>clazz</code> the mixin <code>mixin</code>.</p>
-<p>This is a form of static inheritance in the sense that modification performed to the prototype of <code>mixin</code> after calling <code>mix()</code> aren&quot;t reflected on the mixed classes.</p>
+        <p>Mixes class <code>clazz</code> with mixin <code>mixin</code>.</p>
+<p>This is a form of static inheritance in the sense that modification performed to the prototype of <code>mixin</code> after calling <code>mixWith()</code> aren't reflected on the mixed classes.</p>
 <p>This is different from prototypal inheritance where modifications are propagated to subclasses and therefore is a sort of dynamic inheritance.</p>
 <p>What makes mixins interesting is that they support multliple inheritance.</p>
 <pre class="code prettyprint"><code>function M() {}
 M.prototype.X = 0;
 function A() {}
 A.prototype.Y = 0;
-Mxr.mix(A,M);
+Mxr.mixWith(A,M);
 var a = new A();
 a.X == 0;                 //true
 a.Y == 0;                 //true

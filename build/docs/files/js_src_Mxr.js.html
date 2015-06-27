@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="Mxr.js" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.0</em>
+            <em>API Docs for: 0.1.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -80,7 +80,7 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 /*!
-*  Mxr.js 0.0.0
+*  Mxr.js 0.1.0
 *
 *  (c) valentino miazzo
 *
@@ -142,17 +142,18 @@ define([
         }
 
     It is called at load time by require.js passing as &#x60;config&#x60; the config of the module.
+    Anyway, you can call it again anytime.
 
     Fields description:
 
     &#x60;assertCallback&#x60;:
     Optional. The signature is &#x60;void assert(boolean, String)&#x60;.
-    If you pass &#x60;null&#x60; (but not &#x60;undefined&#x60;) then assertions are disabled.
+    If you pass &#x60;null&#x60; then assertions are disabled.
     If you pass &#x60;undefined&#x60; then the default implementation is used.
 
     &#x60;In&#x60;:
     Optional. If you pass the &#x60;In.js&#x60; module here then it is merged with &#x60;Mxr.js&#x60; module.
-    This is handy if you want to call &#x60;Mxr.inherit(a,b)&#x60;.
+    This is handy if you want to call &#x60;Mxr.inheritFrom(a,b)&#x60;.
     It is ignored of already merged.
     It cannot be reverted.
 
@@ -193,17 +194,17 @@ define([
     Under the hoods, it generates a new stub function with troubleshooting code inside.
 
         function M() {}
-        M.prototype.doCoreStuff = Mxr.abstract(); //Note is abstract(); not abstract;
+        M.prototype.doCoreStuff = Mxr.anAbstract(); //Note is anAbstract(); not anAbstract;
         M.prototype.doStuf = function () {
             //something before
             this.doCoreStuff();
             //something after
         }
 
-    @method abstract
+    @method anAbstract
     @static
     */
-    Mxr.abstract = function () {
+    Mxr.anAbstract = function () {
         var newAbstract = function () {
             throw new Error(&quot;Abstract function not overriden&quot;);
         };
@@ -212,7 +213,14 @@ define([
     };
 
     /**
-    Tests if &#x60;member&#x60; is an abstract method (declared with &#x60;Mxr.abstract()&#x60;).
+    @method abstract
+    @static
+    @deprecated use anAbstract
+    */
+    Mxr.abstract = Mxr.anAbstract;
+
+    /**
+    Tests if &#x60;member&#x60; is an abstract method (declared with &#x60;Mxr.anAbstract()&#x60;).
 
         if (Mxr.isAbstract(M.prototype.doStuff) {
             //...
@@ -225,8 +233,8 @@ define([
     Mxr.isAbstract = function (member) {
         _assert &amp;&amp; _assert(member instanceof Function, &quot;member is not a function.&quot;);
         _assert &amp;&amp; _assert(
-            member !== Mxr.abstract,
-            &quot;When declaring an abstract method you should use Mxr.abstract(); not Mxr.abstract;&quot;
+            member !== Mxr.anAbstract,
+            &quot;When declaring an abstract method you should use Mxr.anAbstract(); not Mxr.anAbstract;&quot;
         );
         return member[Mxr._ABSTRACT] === true;
     };
@@ -280,9 +288,9 @@ define([
     };
 
     /**
-    Mixes __in__ class &#x60;clazz&#x60; the mixin &#x60;mixin&#x60;.
+    Mixes class &#x60;clazz&#x60; with mixin &#x60;mixin&#x60;.
 
-    This is a form of static inheritance in the sense that modification performed to the prototype of &#x60;mixin&#x60; after calling &#x60;mix()&#x60; aren&quot;t reflected on the mixed classes.
+    This is a form of static inheritance in the sense that modification performed to the prototype of &#x60;mixin&#x60; after calling &#x60;mixWith()&#x60; aren&#x27;t reflected on the mixed classes.
 
     This is different from prototypal inheritance where modifications are propagated to subclasses and therefore is a sort of dynamic inheritance.
 
@@ -292,7 +300,7 @@ define([
         M.prototype.X = 0;
         function A() {}
         A.prototype.Y = 0;
-        Mxr.mix(A,M);
+        Mxr.mixWith(A,M);
         var a = new A();
         a.X == 0;                 //true
         a.Y == 0;                 //true
@@ -301,25 +309,34 @@ define([
         a.X == 1;                 //false, static inheritance
         a.Y == 1;                 //true, dynamic inheritance
 
-    @method mix
+    @method mixWith
     @static
     @param clazz {Class} the destination class
     @param mixin {Class} the mix-in
     */
-    Mxr.mix = function(clazz, mixin) {
+    Mxr.mixWith = function(clazz, mixin) {
         _assert &amp;&amp; _assert(clazz, &quot;clazz is null or undefined.&quot;);
         _assert &amp;&amp; _assert(clazz instanceof Function, &quot;clazz is not a class.&quot;);
-        Mxr._mixObject(clazz.prototype, mixin);
+        Mxr._mixObjectWith(clazz.prototype, mixin);
     };
 
+    /**
+    @method mix
+    @static
+    @deprecated use mixWith
+    */
+    Mxr.mix = Mxr.mixWith;
+
     //This version applies a mixin to an instance
-    Mxr.mixObject = function(object, mixin) {
-        Mxr._mixObject(object, mixin);
+    Mxr.mixObjectWith = function(object, mixin) {
+        Mxr._mixObjectWith(object, mixin);
         _assert &amp;&amp; _assert(mixin.length === 0, &quot;Ctor of mixin has no parameters.&quot;);
         mixin.call(object);
     };
 
-    Mxr._mixObject = function(object, mixin) {
+    Mxr.mixObject = Mxr.mixObjectWith;
+
+    Mxr._mixObjectWith = function(object, mixin) {
         _assert &amp;&amp; _assert(object, &quot;object is null or undefined.&quot;);
         _assert &amp;&amp; _assert(mixin, &quot;mixin is null or undefined.&quot;);
         _assert &amp;&amp; _assert(mixin instanceof Function, &quot;mixin is not a class.&quot;);
@@ -328,7 +345,7 @@ define([
             Mxr._s_IdGenerator += 1;
         }
         _assert &amp;&amp; _assert(
-            !Mxr.isStatically(object, mixin),
+            !Mxr.isMixedWith(object, mixin),
             &quot;Mixed the same class multiple times. Target=&quot; + object + &quot; Mixin=&quot; + mixin
         );
         Mxr._copy(object, mixin.prototype);
@@ -336,7 +353,7 @@ define([
         mixins[mixin[Mxr._ID]] = mixin; //adds the mixin
         Mxr._copyMixins(mixins, mixin.prototype[Mxr._MIXINS]); //and the mixin&#x27;s mixins
         object[Mxr._MIXINS] = mixins;
-        _assert &amp;&amp; _assert(Mxr.isStatically(object, mixin), &quot;Internal error. isStatically returns false after mixing. Open a ticket.&quot;);
+        _assert &amp;&amp; _assert(Mxr.isMixedWith(object, mixin), &quot;Internal error. isStatically returns false after mixing. Open a ticket.&quot;);
     };
 
     Mxr._copyMixins = function(dst, src) {
@@ -358,20 +375,19 @@ define([
 
         function A() {}
         function B() {}
-        Mxr.mix(A,B);
+        Mxr.mixWith(A,B);
         var a = new A();
         a instanceof A;           //true
         a instanceof B;           //false
-        Mxr.isStatically(a,A);    //false
-        Mxr.isStatically(a,B);    //true
+        Mxr.isMixedWith(a,A);    //false
+        Mxr.isMixedWith(a,B);    //true
 
-    @method isStatically
+    @method isMixedWith
     @static
     @param object {Object} the instance under test
     @param mixin {Class} the mix-in to check
     */
-    //TODO: rename it isMixed() ?
-    Mxr.isStatically = function(object, mixin) {
+    Mxr.isMixedWith = function(object, mixin) {
         _assert &amp;&amp; _assert(mixin, &quot;mixin is null or undefined.&quot;);
         _assert &amp;&amp; _assert(mixin instanceof Function, &quot;mixin is not a class.&quot;);
         var id = mixin[Mxr._ID];
@@ -389,29 +405,43 @@ define([
     };
 
     /**
+    @method isStatically
+    @static
+    @deprecated use isMixedWith
+    */
+    Mxr.isStatically = Mxr.isMixedWith;
+
+    /**
     Tests if &#x60;object&#x60; is an instance of a &#x60;clazz&#x60; or an instance of a class mixed with &#x60;clazz&#x60;.
 
     In other words it tests for both static and dynamic inheritance.
 
         function A() {}
         function B() {}
-        Mxr.mix(A,B);
+        Mxr.mixWith(A,B);
         var a = new A();
         a instanceof A; //true
         a instanceof B; //false
-        Mxr.is(a,A);    //true
-        Mxr.is(a,B);    //true
+        Mxr.isA(a,A);    //true
+        Mxr.isA(a,B);    //true
 
-    @method is
+    @method isA
     @static
     @param object {Object} the instance under test
     @param clazz {Class} the class to check
     */
-    Mxr.is = function(object, clazz) {
+    Mxr.isA = function(object, clazz) {
         _assert &amp;&amp; _assert(clazz, &quot;clazz is null or undefined.&quot;);
         _assert &amp;&amp; _assert(clazz instanceof Function, &quot;clazz is not a class.&quot;);
-        return (object instanceof clazz) || Mxr.isStatically(object, clazz);
+        return (object instanceof clazz) || Mxr.isMixedWith(object, clazz);
     };
+
+    /**
+    @method is
+    @static
+    @deprecated use isA
+    */
+    Mxr.is = Mxr.isA;
 
     return Mxr;
 });
