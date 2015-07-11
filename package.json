@@ -1,7 +1,7 @@
 {
   "name": "Mxr.js",
   "version": "0.1.0",
-  "description": "Mixin inheritance done right",
+  "description": "Mix-ins for Javascript",
   "licenses": [
     {
       "type": "MIT license",
