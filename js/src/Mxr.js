@@ -73,7 +73,7 @@ define([
     `In`:
     Optional. If you pass the `In.js` module here then it is merged with `Mxr.js` module.
     This is handy if you want to call `Mxr.inheritFrom(a,b)`.
-    It is ignored of already merged.
+    It is ignored if already merged.
     It cannot be reverted.
 
     @method configure
