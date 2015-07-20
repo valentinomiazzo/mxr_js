@@ -54,26 +54,33 @@ As examples you can use the [spec](js/spec/Mxr.js) file used for unit testing. [
 ## How do I get set up? ##
 
 * How to use the lib
-    * The lib is a [Require.js](http://require.js) compatible module.
-* Summary of set up
-    * install [Node.js](http://nodejs.org/) (tested with 0.10.31)
-    * install [Npm](https://www.npmjs.com/) (tested with 2.8.3)
-    * `npm install grunt-cli -g`
-    * clone this repository
-    * in the root of the cloned repo, type (on Windows you may need to disable antivirus if you get strange issues during the install):
+    * The lib is a [Bower](http://bower.io) component. You can add it to your dependencies in this way:
+    ```javascript
+    "dependencies": {
+        "mxr_js": "git+https://github.com/valentinomiazzo/mxr_js.git"
+    }
+    ```
+    * The lib is a [Require.js](http://require.js) module. Remember to add it to your `require.config()`
+* How to modify the lib, run tests, etc...
+    * Prerequisites
+        * install [Node.js](http://nodejs.org/)
+        * install [Npm](https://www.npmjs.com/)
+        * `npm install grunt-cli -g`
+    * Install
+        * clone this repository
+        * in the root of the cloned repo, type (on Windows you may need to disable antivirus if you get strange issues during the install):
         * `npm install`
-* How to run tests and generate docs
-    * in the root of the cloned repo, type:
+    * Build
         * `grunt`
+        * docs are generated in `build/docs`
+    * Test
+        * [Jasmine](https://jasmine.github.io/) it is used for testing.
+        * tests are in `js/spec`
         * tests reports are in `build/tests`
         * coverage reports are in `build/coverage`
-        * docs are generated in `build/docs`
 
 ## Contribution guidelines ##
 
-* Writing tests
-    * [Jasmine](https://jasmine.github.io/) it is used for testing.
-    * tests are in `js/spec`
 * For pull requests
     * go [here](../../pulls)
 * For issues
@@ -142,6 +149,7 @@ TODO
 
 If you want, you can merge `Mxr.js` with `In.js`. In this way you can use `Mxr.js` as a superset of `In.js`.
 This can be obtained by obtaining a reference to the In module and then invoking `Mxr.configure(...)` method.
+Off course you also have to add `In.js` to your Bower dependencies and configure paths in `require.config()`.
 
 ### instanceof ###
 
