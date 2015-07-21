@@ -1,7 +1,7 @@
 {
     "project": {
         "name": "Mxr.js",
-        "description": "Mixin inheritance done right",
+        "description": "Mix-ins for Javascript",
         "version": "0.1.0",
         "url": ""
     },
@@ -36,7 +36,7 @@
         {
             "file": "js\\src\\Mxr.js",
             "line": 54,
-            "description": "Configures the library.\nIt expects a JSON like the following:\n\n    {\n        \"assert\" : callback,\n        \"In\": module\n    }\n\nIt is called at load time by require.js passing as `config` the config of the module.\nAnyway, you can call it again anytime.\n\nFields description:\n\n`assertCallback`:\nOptional. The signature is `void assert(boolean, String)`.\nIf you pass `null` then assertions are disabled.\nIf you pass `undefined` then the default implementation is used.\n\n`In`:\nOptional. If you pass the `In.js` module here then it is merged with `Mxr.js` module.\nThis is handy if you want to call `Mxr.inheritFrom(a,b)`.\nIt is ignored of already merged.\nIt cannot be reverted.",
+            "description": "Configures the library.\nIt expects a JSON like the following:\n\n    {\n        \"assert\" : callback,\n        \"In\": module\n    }\n\nIt is called at load time by require.js passing as `config` the config of the module.\nAnyway, you can call it again anytime.\n\nFields description:\n\n`assert`:\nOptional. The signature is `void assert(boolean, String)`.\nIf you pass `null` then assertions are disabled.\nIf you pass `undefined` then the default implementation is used.\n\n`In`:\nOptional. If you pass the `In.js` module here then it is merged with `Mxr.js` module.\nThis is handy if you want to call `Mxr.inheritFrom(a,b)`.\nIt is ignored if already merged.\nIt cannot be reverted.",
             "itemtype": "method",
             "name": "configure",
             "static": 1,

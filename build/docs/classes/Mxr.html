@@ -286,14 +286,14 @@ It expects a JSON like the following:</p>
 <p>It is called at load time by require.js passing as <code>config</code> the config of the module.
 Anyway, you can call it again anytime.</p>
 <p>Fields description:</p>
-<p><code>assertCallback</code>:
+<p><code>assert</code>:
 Optional. The signature is <code>void assert(boolean, String)</code>.
 If you pass <code>null</code> then assertions are disabled.
 If you pass <code>undefined</code> then the default implementation is used.</p>
 <p><code>In</code>:
 Optional. If you pass the <code>In.js</code> module here then it is merged with <code>Mxr.js</code> module.
 This is handy if you want to call <code>Mxr.inheritFrom(a,b)</code>.
-It is ignored of already merged.
+It is ignored if already merged.
 It cannot be reverted.</p>
 
     </div>

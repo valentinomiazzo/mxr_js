@@ -1,6 +1,6 @@
 {
     "name": "Mxr.js",
-    "description": "Mixin inheritance done right",
+    "description": "Mix-ins for Javascript",
     "version": "0.1.0",
     "authors": "valentino miazzo",
     "main": "js/src/Mxr.js",

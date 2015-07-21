@@ -146,7 +146,7 @@ define([
 
     Fields description:
 
-    &#x60;assertCallback&#x60;:
+    &#x60;assert&#x60;:
     Optional. The signature is &#x60;void assert(boolean, String)&#x60;.
     If you pass &#x60;null&#x60; then assertions are disabled.
     If you pass &#x60;undefined&#x60; then the default implementation is used.
@@ -154,7 +154,7 @@ define([
     &#x60;In&#x60;:
     Optional. If you pass the &#x60;In.js&#x60; module here then it is merged with &#x60;Mxr.js&#x60; module.
     This is handy if you want to call &#x60;Mxr.inheritFrom(a,b)&#x60;.
-    It is ignored of already merged.
+    It is ignored if already merged.
     It cannot be reverted.
 
     @method configure

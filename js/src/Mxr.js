@@ -65,7 +65,7 @@ define([
 
     Fields description:
 
-    `assertCallback`:
+    `assert`:
     Optional. The signature is `void assert(boolean, String)`.
     If you pass `null` then assertions are disabled.
     If you pass `undefined` then the default implementation is used.
